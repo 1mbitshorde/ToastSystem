@@ -8,7 +8,9 @@
     "Message",
     "Toast"
   ],
-  "dependencies": {},
+  "dependencies": {
+    "com.unity.localization": "1.5.8"
+  },
   "homepage": "https://github.com/1mbitshorde/ToastSystem#readme",
   "repository": {
     "type": "git",
