@@ -1,6 +1,6 @@
-# [PackageName]
+# Toast System
 
-[...]
+A toast message is a brief, non-intrusive notification that appears temporarily providing user feedback without interrupting their current task. These messages can inform users of an action's success or failure, display system messages, or provide other contextual information, and they disappear automatically after a few seconds. 
 
 ## How To Use
 
