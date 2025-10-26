@@ -15,7 +15,7 @@ ToastManager.ShowMessage(key: "player_jump", table: "Tutorial");
 
 // Localized Toast Message with Smart Arguments:
 // Assuming your Smart String in the LevelSummary Table is:
-// win_message: "Congratulation! You have scored {score-points} points!"
+// win_message: "Congratulations! You have scored {score-points} points!"
 
 var scorePoints = 1500;
 var variable = new ToastVariable("score-points", scorePoints.ToString());
