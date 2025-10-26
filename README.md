@@ -4,7 +4,28 @@ A toast message is a brief, non-intrusive notification that appears temporarily 
 
 ## How To Use
 
-### Using [...]
+Instantiate the prefab `P_ToastManager` and use any static function to show normal and localized messages:
+
+```csharp
+// Simple Toast Message without Localization:
+ToastManager.ShowMessage("This is a simple toast message!");
+
+// Localized Toast Message:
+ToastManager.ShowMessage(key: "player_jump", table: "Tutorial");
+
+// Localized Toast Message with Smart Arguments:
+// Assuming your Smart String in the LevelSummary Table is:
+// win_message: "Congratulation! You have scored {score-points} points!"
+
+var scorePoints = 1500;
+var variable = new ToastVariable("score-points", scorePoints.ToString());
+ToastManager.ShowMessage(
+    key: "win_message",
+    table: "LevelSummary",
+    variable
+);
+// Note: win_message should be marked as Smart String in the Localization Table Editor.
+```
 
 ## Installation
 

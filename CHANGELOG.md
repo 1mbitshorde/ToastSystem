@@ -9,9 +9,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [0.1.0] - 2025-01-01
 ### Added
 - ToastVariable struct
+- P_ToastManager prefab
 - P_Toast prefab
 - Toast Animations
 - Toast component
+- ToastManager component
 - Awaitable System package dependency
 - Unity Localization System dependency
 - CHANGELOG
