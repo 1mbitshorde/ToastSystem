@@ -9,6 +9,7 @@
     "Toast"
   ],
   "dependencies": {
+    "com.actioncode.awaitable-system": "1.2.0",
     "com.unity.localization": "1.5.8"
   },
   "homepage": "https://github.com/1mbitshorde/ToastSystem#readme",
