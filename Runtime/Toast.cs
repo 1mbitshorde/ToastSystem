@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.Localization;
 using UnityEngine.Localization.Components;
 
 namespace OneM.ToastSystem
@@ -14,6 +15,11 @@ namespace OneM.ToastSystem
         [SerializeField] private LocalizeStringEvent localization;
 
         /// <summary>
+        /// The localization string reference. Use to set Local Variables.
+        /// </summary>
+        public LocalizedString StringReference => localization.StringReference;
+
+        /// <summary>
         /// Set the Toast Message directly, without using localization.
         /// </summary>
         /// <param name="message">The toast message.</param>
@@ -24,8 +30,7 @@ namespace OneM.ToastSystem
         /// </summary>
         /// <param name="key">The localized toast message key.</param>
         /// <param name="table">The localized toast message table where the key is.</param>
-        public void SetMessage(string key, string table) =>
-            localization.StringReference.SetReference(table, key);
+        public void SetMessage(string key, string table) => StringReference.SetReference(table, key);
 
         /// <summary>
         /// Clears the Toast Message.
@@ -33,8 +38,26 @@ namespace OneM.ToastSystem
         public void Clear()
         {
             SetMessage(string.Empty);
-            localization.StringReference.Clear();
-            localization.StringReference.SetReference(string.Empty, string.Empty);
+            StringReference.Clear();
+            StringReference.SetReference(string.Empty, string.Empty);
+        }
+
+        /// <summary>
+        /// Add the given variables to the Toast Message localization.
+        /// </summary>
+        /// <param name="variables">
+        /// The name/value variable. 
+        /// You cannot change its value after set.
+        /// </param>
+        public void AddVariables(params ToastVariable[] variables)
+        {
+            foreach (var variable in variables)
+            {
+                StringReference.Add(
+                    variable.Name,
+                    variable.GetStringVariable()
+                );
+            }
         }
     }
 }
