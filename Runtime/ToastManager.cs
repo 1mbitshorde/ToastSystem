@@ -16,11 +16,6 @@ namespace OneM.ToastSystem
         [SerializeField, Tooltip("Optional audio source to play.")]
         private AudioSource source;
 
-        [Header("ANIMATIONS")]
-        [SerializeField] private Animation _animation;
-        [SerializeField] private string showAnimationName = "Toast@Show";
-        [SerializeField] private string hideAnimationName = "Toast@Hide";
-
         public static Toast Toast => Instance.toast;
 
         private static ToastManager Instance { get; set; }
@@ -88,9 +83,8 @@ namespace OneM.ToastSystem
             isShowing = true;
 
             if (source) source.Play();
-            _animation.Play(showAnimationName);
 
-            await AwaitableUtility.WaitWhilePlayingAsync(_animation);
+            await toast.ShowAsync();
             await AwaitableUtility.WaitForSecondsRealtimeAsync(time);
             await HideAsync();
 
@@ -99,8 +93,7 @@ namespace OneM.ToastSystem
 
         private async Awaitable HideAsync()
         {
-            _animation.Play(hideAnimationName);
-            await AwaitableUtility.WaitWhilePlayingAsync(_animation);
+            await toast.HideAsync();
             Toast.Clear();
         }
     }

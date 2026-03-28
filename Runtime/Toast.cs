@@ -9,15 +9,25 @@ namespace OneM.ToastSystem
     /// Toast component representing a single toast message in the Toast System.
     /// </summary>
     [DisallowMultipleComponent]
+    [RequireComponent(typeof(CanvasGroup))]
     public sealed class Toast : MonoBehaviour
     {
+        [SerializeField] private CanvasGroup canvas;
         [SerializeField] private TMP_Text message;
         [SerializeField] private LocalizeStringEvent localization;
+        [SerializeField, Min(0f)] private float fadeDuration = 0.2f;
 
         /// <summary>
         /// The localization string reference. Use to set Local Variables.
         /// </summary>
         public LocalizedString StringReference => localization.StringReference;
+
+        private void Reset()
+        {
+            canvas = GetComponent<CanvasGroup>();
+            message = GetComponentInChildren<TMP_Text>();
+            localization = GetComponentInChildren<LocalizeStringEvent>();
+        }
 
         /// <summary>
         /// Set the Toast Message directly, without using localization.
@@ -58,6 +68,15 @@ namespace OneM.ToastSystem
                     variable.GetStringVariable()
                 );
             }
+        }
+
+        internal async Awaitable ShowAsync() => await CrossFadeAsync(0f, 1f);
+        internal async Awaitable HideAsync() => await CrossFadeAsync(1f, 0f);
+
+        private async Awaitable CrossFadeAsync(float initial, float final)
+        {
+            void UpdateCanvasAlpha(float alpha) => canvas.alpha = alpha;
+            await AwaitableSystem.AwaitableUtility.LerpAsync(initial, final, fadeDuration, UpdateCanvasAlpha);
         }
     }
 }
