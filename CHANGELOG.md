@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 - Replace Toast Show/Hide animations by Canvas Alpha Cross fade
 
+### Removed
+- Toast Show/Hide animations
+
 ## [1.1.0] - 2026-03-21
 ### Changed
 - Update package dependencies to use 1M Bits Horde
