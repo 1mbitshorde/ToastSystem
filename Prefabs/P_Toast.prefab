@@ -104,6 +104,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -279,5 +280,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a73c72c6c906ba1478af128df088b3b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: OneM.ToastSystem::OneM.ToastSystem.Toast
+  canvas: {fileID: 9163850596423203534}
   message: {fileID: 2847413553612318745}
+  rectTransform: {fileID: 0}
   localization: {fileID: 7265399416039397083}
+  fadeDuration: 0.2
