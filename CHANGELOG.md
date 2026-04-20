@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+- Serialized Dictionary package dependency
+
 ## [1.2.0] - 2026-03-28
 ### Changed
 - Replace Toast Show/Hide animations by Canvas Alpha Cross fade
