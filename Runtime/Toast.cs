@@ -10,10 +10,12 @@ namespace OneM.ToastSystem
     /// </summary>
     [DisallowMultipleComponent]
     [RequireComponent(typeof(CanvasGroup))]
+    [RequireComponent(typeof(RectTransform))]
     public sealed class Toast : MonoBehaviour
     {
         [SerializeField] private CanvasGroup canvas;
         [SerializeField] private TMP_Text message;
+        [SerializeField] private RectTransform rectTransform;
         [SerializeField] private LocalizeStringEvent localization;
         [SerializeField, Min(0f)] private float fadeDuration = 0.2f;
 
@@ -26,6 +28,7 @@ namespace OneM.ToastSystem
         {
             canvas = GetComponent<CanvasGroup>();
             message = GetComponentInChildren<TMP_Text>();
+            rectTransform = GetComponent<RectTransform>();
             localization = GetComponentInChildren<LocalizeStringEvent>();
         }
 
@@ -69,6 +72,8 @@ namespace OneM.ToastSystem
                 );
             }
         }
+
+        internal void SetPosition(Vector2 position) => rectTransform.anchoredPosition = position;
 
         internal async Awaitable ShowAsync() => await CrossFadeAsync(0f, 1f);
         internal async Awaitable HideAsync() => await CrossFadeAsync(1f, 0f);

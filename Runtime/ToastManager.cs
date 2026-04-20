@@ -1,5 +1,6 @@
 using UnityEngine;
 using OneM.AwaitableSystem;
+using OneM.SerializedDictionaries;
 
 namespace OneM.ToastSystem
 {
@@ -16,6 +17,9 @@ namespace OneM.ToastSystem
         [SerializeField, Tooltip("Optional audio source to play.")]
         private AudioSource source;
 
+        [Space]
+        [SerializeField] private SerializedDictionary<ToastPosition, RectTransform> positions;
+
         public static Toast Toast => Instance.toast;
 
         private static ToastManager Instance { get; set; }
@@ -31,8 +35,10 @@ namespace OneM.ToastSystem
         /// <param name="message">
         /// <inheritdoc cref="Toast.SetMessage(string)" path="/param[@name='message']"/>
         /// </param>
-        public static void ShowMessage(string message)
+        /// <param name="position">The toast position.</param>
+        public static void ShowMessage(string message, ToastPosition position = ToastPosition.Top)
         {
+            Toast.SetPosition(Instance.positions[position].anchoredPosition);
             Toast.SetMessage(message);
             Instance.Show();
         }
@@ -46,8 +52,12 @@ namespace OneM.ToastSystem
         /// <param name="table">
         /// <inheritdoc cref="Toast.SetMessage(string, string)" path="/param[@name='table']"/>
         /// </param>
-        public static void ShowMessage(string key, string table)
+        /// <param name="position">
+        /// <inheritdoc cref="ShowMessage(string, ToastPosition)" path="/param[@name='position']"/>
+        /// </param>
+        public static void ShowMessage(string key, string table, ToastPosition position = ToastPosition.Top)
         {
+            Toast.SetPosition(Instance.positions[position].anchoredPosition);
             Toast.SetMessage(key, table);
             Instance.Show();
         }
@@ -62,13 +72,16 @@ namespace OneM.ToastSystem
         /// <param name="table">
         /// <inheritdoc cref="Toast.SetMessage(string, string)" path="/param[@name='table']"/>
         /// </param>
+        /// <param name="position">
+        /// <inheritdoc cref="ShowMessage(string, ToastPosition)" path="/param[@name='position']"/>
+        /// </param>
         /// <param name="variables">
         /// <inheritdoc cref="Toast.AddVariables(ToastVariable[])" path="/param[@name='variables']"/>
         /// </param>
-        public static void ShowMessage(string key, string table, params ToastVariable[] variables)
+        public static void ShowMessage(string key, string table, ToastPosition position = ToastPosition.Top, params ToastVariable[] variables)
         {
             Toast.AddVariables(variables);
-            ShowMessage(key, table);
+            ShowMessage(key, table, position);
         }
 
         /// <summary>
