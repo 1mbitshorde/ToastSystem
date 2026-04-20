@@ -2,7 +2,6 @@
     "name": "OneM.ToastSystem",
     "rootNamespace": "OneM.ToastSystem",
     "references": [
-        "GUID:42455229664ef814db688ed1b62b4ebd",
         "GUID:2055e4f86e8d13344b9d599457150310",
         "GUID:b6d604d366204e3498891d6d6ba5936e",
         "GUID:eec0964c48f6f4e40bc3ec2257ccf8c5",
