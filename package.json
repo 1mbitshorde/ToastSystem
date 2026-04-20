@@ -9,7 +9,6 @@
     "Toast"
   ],
   "dependencies": {
-    "com.1mbitshorde.awaitable-system": "2.0.1",
     "com.1mbitshorde.serialized-dictionary": "2.0.0",
     "com.unity.localization": "1.5.11"
   },

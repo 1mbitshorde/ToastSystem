@@ -2,6 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Components;
+using System.Collections;
 
 namespace OneM.ToastSystem
 {
@@ -31,6 +32,8 @@ namespace OneM.ToastSystem
             rectTransform = GetComponent<RectTransform>();
             localization = GetComponentInChildren<LocalizeStringEvent>();
         }
+
+        public bool HasMessage() => !string.IsNullOrEmpty(message.text);
 
         /// <summary>
         /// Set the Toast Message directly, without using localization.
@@ -73,15 +76,31 @@ namespace OneM.ToastSystem
             }
         }
 
-        internal void SetPosition(Vector2 position) => rectTransform.anchoredPosition = position;
-
-        internal async Awaitable ShowAsync() => await CrossFadeAsync(0f, 1f);
-        internal async Awaitable HideAsync() => await CrossFadeAsync(1f, 0f);
-
-        private async Awaitable CrossFadeAsync(float initial, float final)
+        internal void Hide()
         {
-            void UpdateCanvasAlpha(float alpha) => canvas.alpha = alpha;
-            await AwaitableSystem.AwaitableUtility.LerpAsync(initial, final, fadeDuration, UpdateCanvasAlpha);
+            Clear();
+            canvas.alpha = 0f;
+        }
+
+        internal void SetPosition(Vector2 position) => rectTransform.position = position;
+
+        internal IEnumerator ShowRoutine() => CrossFadeRoutine(0f, 1f);
+        internal IEnumerator HideRoutine() => CrossFadeRoutine(1f, 0f);
+
+        private IEnumerator CrossFadeRoutine(float initial, float final)
+        {
+            var currentTime = 0F;
+            while (currentTime < fadeDuration)
+            {
+                var step = currentTime / fadeDuration;
+
+                canvas.alpha = Mathf.Lerp(initial, final, step);
+                currentTime += Time.unscaledDeltaTime;
+
+                yield return null;
+            }
+
+            canvas.alpha = final;
         }
     }
 }

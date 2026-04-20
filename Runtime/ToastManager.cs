@@ -1,6 +1,6 @@
 using UnityEngine;
-using OneM.AwaitableSystem;
 using OneM.SerializedDictionaries;
+using System.Collections;
 
 namespace OneM.ToastSystem
 {
@@ -24,9 +24,8 @@ namespace OneM.ToastSystem
 
         private static ToastManager Instance { get; set; }
 
-        private bool isShowing;
-
         private void Awake() => Instance = this;
+        private void Start() => Toast.Clear();
         private void OnDestroy() => Instance = null;
 
         /// <summary>
@@ -38,7 +37,7 @@ namespace OneM.ToastSystem
         /// <param name="position">The toast position.</param>
         public static void ShowMessage(string message, ToastPosition position = ToastPosition.Top)
         {
-            Toast.SetPosition(Instance.positions[position].anchoredPosition);
+            Toast.SetPosition(Instance.positions[position].position);
             Toast.SetMessage(message);
             Instance.Show();
         }
@@ -57,7 +56,7 @@ namespace OneM.ToastSystem
         /// </param>
         public static void ShowMessage(string key, string table, ToastPosition position = ToastPosition.Top)
         {
-            Toast.SetPosition(Instance.positions[position].anchoredPosition);
+            Toast.SetPosition(Instance.positions[position].position);
             Toast.SetMessage(key, table);
             Instance.Show();
         }
@@ -87,26 +86,39 @@ namespace OneM.ToastSystem
         /// <summary>
         /// Hides the current Toast Message.
         /// </summary>
-        public static void HideMessage() => _ = Instance.HideAsync();
+        public static void HideMessage() => Instance.Hide();
+        public static void ClearMessage() => Instance.Clear();
 
-        private async void Show()
+        private void Show()
         {
-            if (isShowing) return;
-
-            isShowing = true;
-
-            if (source) source.Play();
-
-            await toast.ShowAsync();
-            await AwaitableUtility.WaitForSecondsRealtimeAsync(time);
-            await HideAsync();
-
-            isShowing = false;
+            StopAllCoroutines();
+            StartCoroutine(ShowRoutine());
         }
 
-        private async Awaitable HideAsync()
+        private void Hide()
         {
-            await toast.HideAsync();
+            StopAllCoroutines();
+            if (Toast.HasMessage()) StartCoroutine(HideRoutine());
+            else Toast.Hide();
+        }
+
+        private void Clear()
+        {
+            StopAllCoroutines();
+            Toast.Hide();
+        }
+
+        private IEnumerator ShowRoutine()
+        {
+            if (source) source.Play();
+            yield return Toast.ShowRoutine();
+            yield return new WaitForSecondsRealtime(time);
+            yield return HideRoutine();
+        }
+
+        private IEnumerator HideRoutine()
+        {
+            yield return Toast.HideRoutine();
             Toast.Clear();
         }
     }
